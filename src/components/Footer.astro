@@ -1,0 +1,27 @@
+---
+import { SITE } from '../config';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="footer on-nylon">
+  <div class="container footer__inner">
+    <p>© {year} {SITE.name} · Hecho con Astro</p>
+    <ul class="footer__links">
+      <li><a href={SITE.social.github} target="_blank" rel="noopener"><Icon name="github" size={16} />GitHub</a></li>
+      <li><a href={SITE.social.linkedin} target="_blank" rel="noopener"><Icon name="linkedin" size={16} />LinkedIn</a></li>
+      <li><a href={`mailto:${SITE.email}`}><Icon name="mail" size={16} />Email</a></li>
+      <li><a href="/rss.xml"><Icon name="rss" size={16} />RSS</a></li>
+    </ul>
+  </div>
+</footer>
+
+<style>
+  .footer { border-top: 2px solid var(--nylon-line); padding-block: 28px; font-size: .875rem; color: var(--on-nylon-2); }
+  .footer__inner { display: flex; justify-content: space-between; align-items: center; gap: 16px 32px; flex-wrap: wrap; }
+  .footer__links { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0; }
+  .footer__links a {
+    display: inline-flex; align-items: center; gap: 8px; padding-block: 6px;
+    font-stretch: 80%; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: var(--on-nylon);
+  }
+  .footer__links a:hover { color: var(--safety); }
+</style>

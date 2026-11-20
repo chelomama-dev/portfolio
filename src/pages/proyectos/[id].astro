@@ -1,0 +1,90 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({ params: { id: project.id }, props: { project } }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+const { title, summary, stack, repo, demo, status, year, highlights } = project.data;
+const wip = status === 'En desarrollo';
+---
+<Base title={title} description={summary} type="article">
+  <article>
+    <header class="head">
+      <div class="container">
+        <a href="/proyectos" class="link-arrow back"><Icon name="arrow" size={18} class="back__icon" /> Proyectos</a>
+        <h1 class="display q">{title}</h1>
+        <p class="lead">{summary}</p>
+        <div class="links">
+          {repo && <a href={repo} class="btn btn--primary" target="_blank" rel="noopener"><Icon name="github" /> Ver el código</a>}
+          {demo && <a href={demo} class="btn" target="_blank" rel="noopener"><Icon name="external" /> Demo</a>}
+        </div>
+      </div>
+    </header>
+    <div class:list={['hazard', !wip && 'hazard--solid']} aria-hidden="true"></div>
+
+    <div class="container body">
+      <div class="prose">
+        <Content />
+      </div>
+
+      <aside class="side">
+        <div class="plate card">
+          <p class="card__title">“Versión rápida”</p>
+          <dl class="card__spec">
+            <div><dt class="caps">Estado</dt><dd><span class:list={['status', wip && 'status--wip']}>{status}</span></dd></div>
+            {year && <div><dt class="caps">Año</dt><dd>{year}</dd></div>}
+          </dl>
+          {highlights.length > 0 && (
+            <ul class="card__hl">{highlights.map((h) => <li>{h}</li>)}</ul>
+          )}
+        </div>
+        <div class="stackbox">
+          <p class="caps stackbox__title">Stack</p>
+          <div class="stackbox__tags">{stack.map((s) => <span class="tag">{s}</span>)}</div>
+        </div>
+      </aside>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .head { padding-block: clamp(32px, 5vw, 64px) clamp(40px, 6vw, 72px); }
+  .back { margin-bottom: 32px; }
+  .back :global(.back__icon) { transform: scaleX(-1); }
+  .back:hover :global(svg) { transform: scaleX(-1) translateX(4px); }
+  h1 { font-size: clamp(3.5rem, 11vw, 9rem); line-height: .86; }
+  .lead { font-size: clamp(1.1875rem, 2vw, 1.4375rem); line-height: 1.5; max-width: 58ch; margin-top: 24px; color: var(--ink-2); }
+  .links { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 32px; }
+  .hazard--solid { background: var(--ink); height: 14px; }
+
+  .body {
+    display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px 72px; align-items: start;
+    padding-block: clamp(48px, 7vw, 88px) var(--section);
+  }
+  .body :global(.prose > :first-child) { margin-top: 0; }
+  .side { position: sticky; top: 96px; display: grid; gap: 28px; }
+  .card { padding-bottom: 8px; }
+  .card__title {
+    padding: 12px 20px; background: var(--ink); color: var(--cotton);
+    font-stretch: 75%; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
+  }
+  .card__spec { margin: 0; padding: 14px 20px 0; display: grid; grid-template-columns: 1fr auto; gap: 16px; }
+  .card__spec dt { color: var(--ink-3); margin-bottom: 6px; }
+  .card__spec dd { margin: 0; font-family: var(--font-mono); font-size: .875rem; }
+  .card__hl { list-style: none; margin: 16px 20px 12px; padding: 16px 0 0; border-top: 1px dashed var(--label-strong); display: grid; gap: 12px; font-size: .9375rem; line-height: 1.5; }
+  .card__hl li { position: relative; padding-left: 22px; }
+  .card__hl li::before { content: ''; position: absolute; left: 1px; top: .5em; width: 9px; height: 9px; background: var(--ink); }
+  .stackbox__title { color: var(--ink-3); margin-bottom: 10px; }
+  .stackbox__tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  @media (max-width: 960px) {
+    .body { grid-template-columns: minmax(0, 1fr); }
+    .side { position: static; order: -1; }
+  }
+</style>

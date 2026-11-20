@@ -1,0 +1,535 @@
+/* ==========================================================================
+   CV — Roberto López Barbarin | Backend Engineer (.NET & Azure)
+   Optimizado para lectura ATS, pantalla y exportación exacta a 1 página A4 PDF
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --ink: #0f172a;
+  --ink-secondary: #334155;
+  --ink-muted: #475569;
+  --accent: #0369a1;
+  --accent-strong: #075985;
+  --accent-soft: #f0f9ff;
+  --accent-border: #bae6fd;
+  --rule: #cbd5e1;
+  --rule-subtle: #e2e8f0;
+  --paper: #ffffff;
+  --desk: #e2e8f0;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--ink);
+  background-color: var(--desk);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --------------------------------------------------------------------------
+   Barra de herramientas superior (solo visible en pantalla, oculta al imprimir)
+   -------------------------------------------------------------------------- */
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  max-width: 210mm;
+  margin: 16px auto 0;
+  padding: 10px 16px;
+  background: #0f172a;
+  color: #f8fafc;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.25);
+  font-size: 0.82rem;
+}
+
+.toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.toolbar-badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: rgba(56, 189, 248, 0.16);
+  color: #7dd3fc;
+  border: 1px solid rgba(125, 211, 252, 0.3);
+}
+
+.lang-switch {
+  display: inline-flex;
+  background: #1e293b;
+  border-radius: 6px;
+  padding: 2px;
+  border: 1px solid #334155;
+}
+
+.lang-switch a {
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.76rem;
+  transition: all 0.15s ease;
+}
+
+.lang-switch a.active {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.lang-switch a:hover:not(.active) {
+  color: #f1f5f9;
+}
+
+.toolbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.btn-secondary {
+  background: #1e293b;
+  color: #e2e8f0;
+  border-color: #475569;
+}
+
+.btn-secondary:hover {
+  background: #334155;
+}
+
+.btn-secondary[aria-pressed="true"] {
+  background: #f59e0b;
+  color: #0f172a;
+  border-color: #fbbf24;
+}
+
+.btn-primary {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #0369a1;
+}
+
+.toolbar-hint {
+  width: 100%;
+  font-size: 0.73rem;
+  color: #94a3b8;
+  border-top: 1px solid #1e293b;
+  padding-top: 6px;
+}
+
+/* --------------------------------------------------------------------------
+   Hoja A4
+   -------------------------------------------------------------------------- */
+.sheet {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 14px auto 36px;
+  padding: 10mm 13mm 9.5mm;
+  background: var(--paper);
+  box-shadow: 0 20px 45px -12px rgba(15, 23, 42, 0.22);
+  border-radius: 2px;
+}
+
+.sheet[contenteditable="true"] {
+  outline: 2px dashed #f59e0b;
+  outline-offset: 4px;
+}
+
+.sheet[contenteditable="true"] [data-editable-placeholder] {
+  background: #fef3c7;
+  border-radius: 3px;
+  padding: 0 3px;
+}
+
+/* --------------------------------------------------------------------------
+   Cabecera
+   -------------------------------------------------------------------------- */
+.cv-header {
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 7px;
+  margin-bottom: 9px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.candidate-name {
+  font-size: 1.52rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  line-height: 1.12;
+}
+
+.candidate-role {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+
+.contact-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 5px 13px;
+  margin-top: 6px;
+  font-size: 0.74rem;
+  color: var(--ink-secondary);
+  list-style: none;
+}
+
+.contact-row li {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.contact-row svg {
+  width: 12px;
+  height: 12px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.contact-row a {
+  color: var(--ink-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.contact-row a:hover {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
+/* --------------------------------------------------------------------------
+   Secciones generales
+   -------------------------------------------------------------------------- */
+.cv-section {
+  margin-bottom: 9.5px;
+}
+
+.cv-section:last-child {
+  margin-bottom: 0;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-strong);
+  margin-bottom: 5.5px;
+  padding-bottom: 2.5px;
+  border-bottom: 1px solid var(--rule);
+}
+
+/* --------------------------------------------------------------------------
+   Resumen profesional
+   -------------------------------------------------------------------------- */
+.summary-text {
+  font-size: 0.765rem;
+  line-height: 1.44;
+  color: var(--ink-secondary);
+  text-align: left;
+}
+
+.summary-text strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Matriz de habilidades técnicas (ATS-friendly)
+   -------------------------------------------------------------------------- */
+.skills-grid {
+  display: grid;
+  grid-template-columns: 152px 1fr;
+  row-gap: 3.5px;
+  column-gap: 10px;
+  font-size: 0.74rem;
+  line-height: 1.38;
+}
+
+.skill-category {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.skill-items {
+  color: var(--ink-secondary);
+}
+
+.skill-items strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Experiencia y Proyectos
+   -------------------------------------------------------------------------- */
+.entry {
+  margin-bottom: 7.5px;
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.entry-title-group {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.entry-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.entry-org {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.entry-link {
+  font-family: var(--font-mono);
+  font-size: 0.69rem;
+  font-weight: 500;
+  color: var(--accent);
+  text-decoration: none;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  padding: 0.5px 5px;
+  border-radius: 3px;
+}
+
+.entry-link:hover {
+  background: #e0f2fe;
+}
+
+.entry-meta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  white-space: nowrap;
+}
+
+.entry-stack {
+  font-family: var(--font-mono);
+  font-size: 0.675rem;
+  color: var(--ink-muted);
+  margin: 1.5px 0 3px;
+}
+
+.entry-bullets {
+  padding-left: 14px;
+  font-size: 0.745rem;
+  line-height: 1.39;
+  color: var(--ink-secondary);
+}
+
+.entry-bullets li {
+  margin-bottom: 2px;
+}
+
+.entry-bullets li:last-child {
+  margin-bottom: 0;
+}
+
+.entry-bullets strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   Formación, Certificaciones e Idiomas (2 columnas compactas)
+   -------------------------------------------------------------------------- */
+.bottom-columns {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  gap: 16px;
+}
+
+.compact-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4.5px;
+  font-size: 0.74rem;
+  line-height: 1.36;
+}
+
+.compact-item-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.compact-title {
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.compact-badge {
+  font-family: var(--font-mono);
+  font-size: 0.67rem;
+  font-weight: 600;
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-border);
+  padding: 0.5px 5px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+
+.compact-sub {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive móvil / pantallas pequeñas
+   -------------------------------------------------------------------------- */
+@media screen and (max-width: 840px) {
+  .toolbar {
+    margin: 8px;
+    max-width: none;
+  }
+
+  .sheet {
+    width: auto;
+    min-height: auto;
+    margin: 8px;
+    padding: 20px 18px;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+    row-gap: 2px;
+  }
+
+  .skill-items {
+    margin-bottom: 5px;
+  }
+
+  .bottom-columns {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .entry-header {
+    flex-direction: column;
+    gap: 1px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Impresión exacta A4 (1 página limpia para ATS / LinkedIn)
+   -------------------------------------------------------------------------- */
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  html,
+  body {
+    width: 210mm;
+    background: #ffffff !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .sheet {
+    width: 210mm;
+    min-height: 0;
+    margin: 0 !important;
+    padding: 9.5mm 12.5mm 9mm !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    outline: none !important;
+  }
+
+  .sheet [data-editable-placeholder] {
+    background: transparent !important;
+    padding: 0 !important;
+  }
+
+  a {
+    text-decoration: none;
+  }
+}
+
+/* Versión web (portfolio): Chrome headless imprime a escala 1; base algo menor para que entre en una A4 */
+@media print {
+  html { font-size: 15.2px; }
+}

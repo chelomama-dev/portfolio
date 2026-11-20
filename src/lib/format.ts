@@ -1,0 +1,7 @@
+export const formatDate = (d: Date) =>
+  d.toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' });
+
+export const readingTime = (text: string) => {
+  const words = text.trim().split(/\s+/).length;
+  return `${Math.max(1, Math.round(words / 220))} min de lectura`;
+};

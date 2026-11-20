@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import RepoCard from '../../components/RepoCard.astro';
+import { getRepos } from '../../lib/github';
+
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const featuredRepos = new Set(projects.map((p) => p.data.repo).filter(Boolean));
+const otherRepos = (await getRepos()).filter((r) => !featuredRepos.has(r.url));
+---
+<Base title="Proyectos" description="Proyectos personales y profesionales: .NET, Angular, Azure, IaC e IA aplicada.">
+  <section class="section">
+    <div class="container">
+      <div class="section__head page-head">
+        <div>
+          <h1 class="display q">Proyectos</h1>
+          <p class="section__lead">
+            Proyectos de punta a punta: diseño, código, infraestructura como código y despliegue automatizado.
+            Cada uno incluye un caso de estudio con las decisiones técnicas.
+          </p>
+        </div>
+      </div>
+      <div class="crates">
+        {projects.map((p) => <ProjectCard project={p} headingLevel="h2" />)}
+      </div>
+
+      {otherRepos.length > 0 && (
+        <>
+          <h2 class="display sub q">Otros repositorios</h2>
+          <div class="repos">{otherRepos.map((r) => <RepoCard repo={r} />)}</div>
+        </>
+      )}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head h1 { font-size: clamp(3.5rem, 10vw, 8rem); }
+  .crates { display: grid; gap: 28px; }
+  .sub { font-size: clamp(2rem, 4vw, 3rem); margin: 80px 0 8px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+  .repos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 32px; }
+  @media (max-width: 860px) { .repos { grid-template-columns: minmax(0, 1fr); } }
+</style>

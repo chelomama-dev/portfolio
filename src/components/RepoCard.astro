@@ -1,0 +1,25 @@
+---
+import type { Repo } from '../lib/github';
+import Icon from './Icon.astro';
+interface Props { repo: Repo }
+const { repo } = Astro.props;
+---
+<a href={repo.url} class="repo" target="_blank" rel="noopener">
+  <span class="repo__name"><Icon name="github" size={16} />{repo.name}{repo.fork && <span class="tag">fork</span>}</span>
+  <p>{repo.description ?? 'Sin descripción.'}</p>
+  <span class="repo__meta">
+    {repo.language && <span>{repo.language}</span>}
+    {repo.stars > 0 && <span><Icon name="star" size={14} />{repo.stars}</span>}
+    <Icon name="external" size={16} class="repo__ext" />
+  </span>
+</a>
+
+<style>
+  .repo { display: flex; flex-direction: column; gap: 10px; padding: 20px 0; border-bottom: 2px solid var(--ink); }
+  .repo__name { display: flex; align-items: center; gap: 8px; font-family: var(--font-mono); font-size: .9375rem; font-weight: 700; }
+  p { color: var(--ink-2); font-size: .9375rem; flex: 1; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .repo__meta { display: flex; align-items: center; gap: 16px; font-family: var(--font-mono); font-size: .8125rem; color: var(--ink-3); }
+  .repo__meta span { display: inline-flex; align-items: center; gap: 6px; }
+  .repo__meta :global(.repo__ext) { margin-left: auto; color: var(--ink); }
+  .repo:hover .repo__name { text-decoration: underline; text-decoration-color: var(--safety); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+</style>

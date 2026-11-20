@@ -1,0 +1,27 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+---
+<Base title="Página no encontrada">
+  <section class="section">
+    <div class="container nf">
+      <div class="plate nf__plate">
+        <p class="nf__bar"><span class="caps">Error 404</span></p>
+        <div class="nf__body">
+          <h1 class="display q">Esta página no existe</h1>
+          <p>Puede que el enlace esté mal o que la haya movido.</p>
+          <a href="/" class="btn btn--primary">Volver al inicio <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf__plate { max-width: 760px; }
+  .nf__bar { height: 44px; display: flex; align-items: center; padding-inline: 24px; background: var(--stripe); border-bottom: 2px solid var(--ink); }
+  .nf__bar span { background: var(--ink); color: var(--cotton); padding: 4px 10px; }
+  .nf__body { display: flex; flex-direction: column; align-items: flex-start; gap: 20px; padding: clamp(28px, 5vw, 48px); }
+  h1 { font-size: clamp(3rem, 8vw, 5.5rem); }
+  p { color: var(--ink-2); font-size: 1.125rem; }
+</style>

@@ -1,0 +1,226 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import '@fontsource-variable/jetbrains-mono';
+
+/* ── Tokens ───────────────────────────────────────────────
+   Algodón blanco y nylon negro se reparten la página en bloques;
+   el naranja de seguridad solo marca acciones y la brida. */
+:root {
+  --cotton: #ffffff;
+  --label: #e6e6e6;
+  --label-strong: #cfcfcf;
+  --ink: #0a0a0a;
+  --ink-2: #3d3d3d;      /* texto secundario sobre blanco (≈10:1) */
+  --ink-3: #5e5e5e;      /* metadatos sobre blanco (≈6.5:1) */
+  --nylon: #141414;
+  --nylon-2: #222222;
+  --nylon-line: #3a3a3a;
+  --on-nylon: #f4f4f4;
+  --on-nylon-2: #b9b9b9; /* ≈9:1 sobre nylon */
+  --safety: #ff5a00;
+  --safety-deep: #e24e00;
+
+  --font-sans: 'Archivo Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, monospace;
+
+  --max: 1200px;
+  --prose: 68ch;
+  --gutter: clamp(16px, 4vw, 40px);
+  --section: clamp(64px, 9vw, 112px);
+  --stripe: repeating-linear-gradient(-45deg, var(--ink) 0 12px, var(--cotton) 12px 24px);
+  --stripe-nylon: repeating-linear-gradient(-45deg, var(--on-nylon) 0 12px, var(--nylon) 12px 24px);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Código (Shiki css-variables): nylon con grises y un único acento naranja */
+  --astro-code-foreground: #e9e9e9;
+  --astro-code-background: #141414;
+  --astro-code-token-keyword: #ff7a2e;
+  --astro-code-token-constant: #ffffff;
+  --astro-code-token-string: #c9c9c9;
+  --astro-code-token-string-expression: #c9c9c9;
+  --astro-code-token-comment: #8f8f8f;
+  --astro-code-token-function: #ffffff;
+  --astro-code-token-parameter: #dcdcdc;
+  --astro-code-token-punctuation: #a8a8a8;
+  --astro-code-token-link: #ff7a2e;
+  color-scheme: light;
+}
+
+/* ── Base ─────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 96px; -webkit-text-size-adjust: 100%; scrollbar-color: var(--ink) var(--label); }
+body {
+  margin: 0;
+  background: var(--cotton);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  font-stretch: 100%;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--safety); color: var(--ink); }
+:focus-visible { outline: 3px solid var(--safety); outline-offset: 3px; }
+h1, h2, h3, h4 { margin: 0; line-height: 1; font-weight: 800; text-wrap: balance; }
+p { margin: 0; text-wrap: pretty; }
+code, pre, kbd { font-family: var(--font-mono); }
+
+.container { width: min(100% - 2 * var(--gutter), var(--max)); margin-inline: auto; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* ── Voz display: mayúsculas condensadas, nombre literal entre comillas ── */
+.display {
+  font-family: var(--font-sans);
+  font-stretch: 68%;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
+}
+.q::before { content: '\201C'; }
+.q::after { content: '\201D'; }
+
+/* Rótulo de placa: mayúsculas condensadas con aire */
+.caps {
+  font-stretch: 80%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.8125rem;
+}
+
+/* ── Placa: rectángulo con remaches en las esquinas ─────── */
+.plate {
+  position: relative;
+  border: 2px solid var(--ink);
+  background-color: var(--cotton);
+}
+/* Remaches encima de todo (también sobre las franjas negras de título) */
+.plate::after {
+  content: ''; position: absolute; inset: 3px; pointer-events: none; z-index: 1;
+  --r: radial-gradient(circle, #8c8c8c 2.4px, transparent 2.9px);
+  background: var(--r) 0 0 / 12px 12px no-repeat, var(--r) 100% 0 / 12px 12px no-repeat,
+              var(--r) 0 100% / 12px 12px no-repeat, var(--r) 100% 100% / 12px 12px no-repeat;
+}
+
+/* ── Botones: placas con la franja que entra por la derecha ─ */
+.btn {
+  position: relative;
+  display: inline-flex; align-items: center; gap: 10px;
+  min-height: 48px; padding: 0 20px;
+  border: 2px solid var(--ink);
+  background: var(--cotton); color: var(--ink);
+  font-stretch: 78%; font-weight: 750; font-size: 1rem;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  overflow: hidden; isolation: isolate;
+  transition: padding .35s var(--ease-out), background-color .2s;
+}
+.btn::after {
+  content: ''; position: absolute; inset: 0 0 0 auto; width: 36px; z-index: -1;
+  background: repeating-linear-gradient(-45deg, currentColor 0 6px, transparent 6px 12px);
+  opacity: .9;
+  clip-path: inset(0 0 0 100%);
+  transition: clip-path .35s var(--ease-out);
+}
+.btn:hover { padding-right: 52px; }
+.btn:hover::after { clip-path: inset(0 0 0 0); }
+.btn svg { width: 18px; height: 18px; flex: none; }
+.btn--primary { background: var(--safety); border-color: var(--ink); }
+.btn--primary:hover { background: var(--safety-deep); }
+.btn--ink { background: var(--ink); color: var(--cotton); }
+.btn--sm { min-height: 40px; padding: 0 14px; font-size: .875rem; }
+.btn--sm:hover { padding-right: 44px; }
+.btn--sm::after { width: 30px; }
+.on-nylon .btn { border-color: var(--on-nylon); background: transparent; color: var(--on-nylon); }
+.on-nylon .btn--primary { background: var(--safety); color: var(--ink); border-color: var(--safety); }
+
+/* ── Etiquetas de inventario (stack) ────────────────────── */
+.tag {
+  display: inline-flex; align-items: center;
+  font-family: var(--font-mono); font-size: .8125rem; line-height: 1.2;
+  padding: 5px 9px;
+  background: var(--label); color: var(--ink);
+  white-space: nowrap;
+}
+.on-nylon .tag { background: var(--nylon-2); color: var(--on-nylon); }
+
+/* Estado de proyecto/certificación: lo que está en obras lleva franja */
+.status {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--font-mono); font-size: .8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: .02em;
+}
+.status::before { content: ''; width: 22px; height: 12px; background: var(--ink); flex: none; }
+.status--wip::before { background: var(--stripe); box-shadow: inset 0 0 0 1.5px var(--ink); }
+
+/* ── Secciones ───────────────────────────────────────────── */
+.section { padding-block: var(--section); }
+.on-nylon { background: var(--nylon); color: var(--on-nylon); }
+.on-nylon ::selection { background: var(--safety); color: var(--ink); }
+.section__head {
+  display: flex; align-items: end; justify-content: space-between; gap: 16px 32px; flex-wrap: wrap;
+  padding-bottom: 20px; margin-bottom: 40px; border-bottom: 2px solid currentColor;
+}
+.section__head h2 { font-size: clamp(2.75rem, 7vw, 5.5rem); }
+.section__lead { max-width: 56ch; color: var(--ink-2); margin-top: 16px; font-size: 1.125rem; }
+.on-nylon .section__lead { color: var(--on-nylon-2); }
+
+.link-arrow {
+  display: inline-flex; gap: 8px; align-items: center;
+  font-stretch: 80%; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; font-size: .9375rem;
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: currentColor;
+  transition: text-decoration-color .2s;
+}
+.link-arrow:hover { text-decoration-color: var(--safety); }
+.link-arrow svg { transition: transform .3s var(--ease-out); }
+.link-arrow:hover svg { transform: translateX(4px); }
+
+.hazard { height: 28px; background: var(--stripe); border-block: 2px solid var(--ink); }
+
+/* ── Prosa (casos de estudio y posts) ───────────────────── */
+.prose { max-width: var(--prose); font-size: 1.125rem; line-height: 1.7; }
+.prose > * + * { margin-top: 1.1em; }
+.prose h2 {
+  font-stretch: 70%; font-weight: 850; text-transform: uppercase; font-size: 2.25rem; line-height: 1;
+  margin-top: 2.2em; padding-top: 14px; border-top: 2px solid var(--ink);
+}
+.prose h2::before { content: '\201C'; }
+.prose h2::after { content: '\201D'; }
+.prose h3 { font-stretch: 80%; font-size: 1.375rem; margin-top: 1.8em; text-transform: uppercase; }
+.prose a { text-decoration: underline; text-decoration-color: currentColor; text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.prose a:hover { background: var(--safety); text-decoration-color: var(--ink); }
+.prose strong { font-weight: 700; }
+.prose ul, .prose ol { padding-left: 0; list-style: none; }
+.prose li { position: relative; padding-left: 28px; }
+.prose li + li { margin-top: .5em; }
+.prose ul > li::before { content: ''; position: absolute; left: 4px; top: .62em; width: 9px; height: 9px; background: var(--ink); }
+.prose ol { counter-reset: step; }
+.prose ol > li { counter-increment: step; padding-left: 44px; }
+.prose ol > li::before {
+  content: counter(step); position: absolute; left: 0; top: .1em;
+  width: 28px; height: 28px; display: grid; place-items: center;
+  background: var(--ink); color: var(--cotton);
+  font-family: var(--font-mono); font-size: .8125rem; font-weight: 700;
+}
+.prose blockquote {
+  margin: 1.6em 0; padding: 18px 20px 18px 64px; position: relative;
+  border: 2px solid var(--ink); color: var(--ink-2); font-size: 1rem;
+}
+.prose blockquote::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 44px; background: var(--stripe); border-right: 2px solid var(--ink); }
+.prose :not(pre) > code { font-size: .86em; padding: .12em .4em; background: var(--label); }
+.prose pre {
+  background: var(--nylon); color: var(--on-nylon);
+  padding: 1.2em 1.3em; overflow-x: auto; font-size: .875rem; line-height: 1.65;
+  border: 2px solid var(--ink);
+}
+.prose img { border: 2px solid var(--ink); }
+.prose table { width: 100%; border-collapse: collapse; font-size: 1rem; display: block; overflow-x: auto; font-variant-numeric: tabular-nums; }
+.prose th, .prose td { text-align: left; padding: .6em .8em; border-bottom: 1px solid var(--label-strong); }
+.prose th { font-stretch: 80%; text-transform: uppercase; letter-spacing: .04em; border-bottom: 2px solid var(--ink); }
+.prose hr { border: 0; height: 14px; background: var(--stripe); margin-block: 2.5em; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

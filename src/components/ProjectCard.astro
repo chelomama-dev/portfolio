@@ -1,0 +1,65 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Icon from './Icon.astro';
+interface Props { project: CollectionEntry<'projects'>; headingLevel?: 'h2' | 'h3' }
+const { project, headingLevel = 'h3' } = Astro.props;
+const { title, summary, stack, status, year, highlights } = project.data;
+const wip = status === 'En desarrollo';
+const H = headingLevel;
+---
+<a href={`/proyectos/${project.id}`} class="crate plate">
+  <div class="crate__spec">
+    <dl>
+      <div><dt class="caps">Estado</dt><dd><span class:list={['status', wip && 'status--wip']}>{status}</span></dd></div>
+      {year && <div><dt class="caps">Año</dt><dd class="mono">{year}</dd></div>}
+      <div><dt class="caps">Piezas</dt><dd class="mono">{stack.length} tecnologías</dd></div>
+    </dl>
+  </div>
+  <div class="crate__body">
+    <H class="display crate__title">{title}</H>
+    <p class="crate__summary">{summary}</p>
+    {highlights.length > 0 && (
+      <ul class="crate__hl">
+        {highlights.slice(0, 3).map((h) => <li>{h}</li>)}
+      </ul>
+    )}
+    <div class="crate__stack">
+      {stack.slice(0, 8).map((s) => <span class="tag">{s}</span>)}
+      {stack.length > 8 && <span class="tag">+{stack.length - 8}</span>}
+    </div>
+    <span class="crate__cta link-arrow">Ver caso de estudio <Icon name="arrow" size={18} /></span>
+  </div>
+  <div class:list={['crate__edge', wip && 'is-wip']} aria-hidden="true"></div>
+</a>
+
+<style>
+  .crate {
+    display: grid; grid-template-columns: 220px minmax(0, 1fr) 64px;
+    transition: background-color .25s;
+  }
+  .crate:hover { background-color: #f6f6f6; }
+  .crate__spec { padding: 32px 24px; border-right: 2px solid var(--ink); }
+  dl { margin: 0; display: grid; gap: 20px; }
+  dt { color: var(--ink-3); margin-bottom: 6px; }
+  dd { margin: 0; }
+  .mono { font-family: var(--font-mono); font-size: .875rem; }
+  .crate__body { padding: 32px clamp(20px, 3vw, 40px); display: flex; flex-direction: column; gap: 18px; }
+  .crate__title { font-size: clamp(2.5rem, 5.5vw, 4.25rem); }
+  .crate__summary { font-size: 1.125rem; color: var(--ink-2); max-width: 62ch; }
+  .crate__hl { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; max-width: 70ch; }
+  .crate__hl li { position: relative; padding-left: 24px; }
+  .crate__hl li::before { content: ''; position: absolute; left: 2px; top: .58em; width: 9px; height: 9px; background: var(--ink); }
+  .crate__stack { display: flex; flex-wrap: wrap; gap: 6px; }
+  .crate__cta { margin-top: 6px; align-self: flex-start; }
+  .crate:hover .crate__cta :global(svg) { transform: translateX(4px); }
+  .crate__edge { border-left: 2px solid var(--ink); background: var(--ink); }
+  .crate__edge.is-wip { background: var(--stripe); }
+
+  @media (max-width: 860px) {
+    .crate { grid-template-columns: minmax(0, 1fr); }
+    .crate__spec { order: 2; border-right: 0; border-top: 2px solid var(--ink); padding: 20px; }
+    .crate__spec dl { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); }
+    .crate__body { order: 1; padding: 24px 20px; }
+    .crate__edge { order: 0; height: 20px; border-left: 0; border-bottom: 2px solid var(--ink); }
+  }
+</style>

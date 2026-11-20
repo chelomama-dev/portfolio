@@ -1,0 +1,284 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostItem from '../components/PostItem.astro';
+import RepoCard from '../components/RepoCard.astro';
+import ZipTag from '../components/ZipTag.astro';
+import { SITE, SPEC, SKILLS, EXPERIENCE, CERTIFICATIONS, EDUCATION } from '../config';
+import { getRepos } from '../lib/github';
+import { cvLinks } from '../lib/cv';
+
+const projects = (await getCollection('projects', (p) => p.data.featured)).sort((a, b) => a.data.order - b.data.order);
+const posts = (await getCollection('blog', (p) => !p.data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
+const projectRepos = new Set((await getCollection('projects')).map((p) => p.data.repo));
+// Solo repos sin caso de estudio: aparecen solos cuando publiques algo nuevo
+const repos = (await getRepos()).filter((r) => !projectRepos.has(r.url)).slice(0, 6);
+const nameWords = SITE.shortName.split(' ');
+---
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__copy">
+        <h1 class="display hero__name">
+          <span class="sr-only">{SITE.name}, </span>
+          <span aria-hidden="true">“{nameWords.map((w, i) => (i ? <><br />{w}</> : w))}”</span>
+        </h1>
+        <p class="hero__role">{SITE.role}</p>
+        <p class="hero__tagline">{SITE.tagline}</p>
+        <div class="hero__cta">
+          <a href="#contacto" class="btn btn--primary">Contactar <Icon name="arrow" /></a>
+          <a href="/proyectos" class="btn">Ver proyectos</a>
+          {cvLinks.map((c) => (
+            <a href={c.href} class="btn" download title={c.title} hreflang={c.lang}><Icon name="download" />{c.label}</a>
+          ))}
+        </div>
+      </div>
+
+      <aside class="spec plate" aria-label="Ficha técnica">
+        <p class="spec__title">“Ficha técnica”</p>
+        <dl>
+          {SPEC.map((s) => (
+            <div><dt class="caps">{s.key}</dt><dd>{s.value}</dd></div>
+          ))}
+        </dl>
+        {SITE.available && (
+          <ZipTag class="spec__tag" label="Abierto a nuevas oportunidades" meta="Backend · Azure · DevOps" />
+        )}
+      </aside>
+    </div>
+    <div class="hazard" aria-hidden="true"></div>
+  </section>
+
+  <!-- PROYECTOS -->
+  <section class="section" id="proyectos">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="display q">Proyectos</h2>
+        <a href="/proyectos" class="link-arrow">Todos los proyectos <Icon name="arrow" size={18} /></a>
+      </div>
+      <div class="crates">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- EXPERIENCIA -->
+  <section class="section on-nylon" id="experiencia">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="display q">Experiencia</h2>
+      </div>
+      <ol class="log">
+        {EXPERIENCE.map((e) => (
+          <li class="log__row">
+            <div class="log__when">
+              <span class="log__place">{e.place}</span>
+              {e.period && <span class="log__period">{e.period}</span>}
+              {e.current && <span class="log__now caps">Actual</span>}
+            </div>
+            <div class="log__what">
+              <h3>{e.title}</h3>
+              <p>{e.description}</p>
+              {e.highlights && (
+                <ul class="log__hl">{e.highlights.map((h) => <li>{h}</li>)}</ul>
+              )}
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- SOBRE MÍ -->
+  <section class="section" id="sobre-mi">
+    <div class="container">
+      <div class="section__head">
+        <h2 class="display q">Sobre mí</h2>
+      </div>
+      <div class="about">
+        <div class="about__text">
+          {SITE.about.map((p) => <p>{p}</p>)}
+        </div>
+        <div class="about__side">
+          <h3 class="caps sub">Certificaciones</h3>
+          <ul class="certs">
+            {CERTIFICATIONS.map((c) => (
+              <li class="plate">
+                <span class="certs__name">{c.name}</span>
+                <span class:list={['status', c.status !== 'Obtenida' && 'status--wip']}>{c.status}</span>
+              </li>
+            ))}
+          </ul>
+          <h3 class="caps sub">Formación</h3>
+          <ul class="edu">
+            {EDUCATION.map((e) => <li>{e.title}</li>)}
+          </ul>
+        </div>
+      </div>
+
+      <h3 class="display stack__title q" id="stack">Stack</h3>
+      <dl class="stack">
+        {SKILLS.map((s) => (
+          <div class="stack__row">
+            <dt class="caps">{s.group}</dt>
+            <dd>{s.items.map((i) => <span class="tag">{i}</span>)}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- BLOG -->
+  {posts.length > 0 && (
+    <section class="section section--tight" id="blog">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="display q">Blog</h2>
+          <a href="/blog" class="link-arrow">Todos los artículos <Icon name="arrow" size={18} /></a>
+        </div>
+        <div>{posts.map((p) => <PostItem post={p} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <!-- GITHUB -->
+  {repos.length > 0 && (
+    <section class="section section--tight" id="github">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="display q">GitHub</h2>
+          <a href={SITE.social.github} class="link-arrow" target="_blank" rel="noopener">
+            @{SITE.githubUser} <Icon name="external" size={18} />
+          </a>
+        </div>
+        <div class="repos">{repos.map((r) => <RepoCard repo={r} />)}</div>
+      </div>
+    </section>
+  )}
+
+  <!-- CONTACTO -->
+  <section class="section on-nylon contact" id="contacto">
+    <div class="container">
+      <h2 class="display contact__title">“¿Hablamos?”</h2>
+      <div class="contact__grid">
+        <p class="contact__text">
+          Busco un puesto de backend .NET con Azure, DevOps o infraestructura como código. Si tienes una oferta, un proyecto o
+          simplemente quieres comentar algo, escríbeme.
+        </p>
+        <div class="contact__actions">
+          <a href={`mailto:${SITE.email}`} class="contact__mail">{SITE.email}</a>
+          <div class="hero__cta">
+            <a href={`mailto:${SITE.email}`} class="btn btn--primary"><Icon name="mail" /> Enviar email</a>
+            <a href={SITE.social.linkedin} class="btn" target="_blank" rel="noopener"><Icon name="linkedin" /> LinkedIn</a>
+            <a href={SITE.social.github} class="btn" target="_blank" rel="noopener"><Icon name="github" /> GitHub</a>
+            {cvLinks.map((c) => (
+              <a href={c.href} class="btn" download title={c.title} hreflang={c.lang}><Icon name="download" />{c.label}</a>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero { border-bottom: 0; }
+  .hero__inner {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+    gap: 48px 64px; align-items: start;
+    padding-block: clamp(40px, 6vw, 80px) clamp(56px, 7vw, 96px);
+  }
+  .hero__name { font-size: clamp(3.75rem, 10.5vw, 9.5rem); line-height: .94; letter-spacing: -0.015em; }
+  .hero__role {
+    display: inline-block; margin-top: 28px; padding: 8px 14px;
+    background: var(--ink); color: var(--cotton);
+    font-stretch: 75%; font-weight: 800; font-size: clamp(1.125rem, 2vw, 1.5rem); text-transform: uppercase; letter-spacing: .03em;
+  }
+  .hero__tagline { margin-top: 24px; max-width: 54ch; font-size: clamp(1.125rem, 1.6vw, 1.3125rem); line-height: 1.55; color: var(--ink-2); }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+  .spec { margin-top: 12px; padding: 0 0 8px; }
+  .spec__title {
+    padding: 14px 24px; background: var(--ink); color: var(--cotton);
+    font-stretch: 75%; font-weight: 800; text-transform: uppercase; letter-spacing: .05em;
+  }
+  .spec dl { margin: 0; padding: 8px 24px 14px; }
+  .spec dl > div { display: grid; grid-template-columns: 76px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--label-strong); }
+  .spec dl > div:last-child { border-bottom: 0; }
+  .spec dt { color: var(--ink-3); padding-top: 2px; }
+  .spec dd { margin: 0; font-family: var(--font-mono); font-size: .9375rem; font-weight: 500; }
+  .spec :global(.spec__tag) { position: absolute; right: 8px; top: calc(100% - 10px); z-index: 2; }
+
+  /* Proyectos */
+  .crates { display: grid; gap: 28px; }
+
+  /* Experiencia: registro de trabajos */
+  .log { list-style: none; margin: 0; padding: 0; }
+  .log__row {
+    display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 16px 48px;
+    padding-block: 32px; border-bottom: 2px solid var(--nylon-line);
+  }
+  .log__row:first-child { padding-top: 0; }
+  .log__row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .log__when { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+  .log__now { background: var(--on-nylon); color: var(--ink); padding: 3px 8px; }
+  .log__period { font-family: var(--font-mono); font-size: .875rem; color: var(--on-nylon-2); }
+  .log__place { font-stretch: 72%; font-weight: 850; font-size: 2rem; line-height: 1; text-transform: uppercase; }
+  .log__what h3 { font-stretch: 85%; font-weight: 750; font-size: 1.375rem; line-height: 1.2; }
+  .log__what p { margin-top: 12px; color: var(--on-nylon-2); max-width: 68ch; }
+  .log__hl { list-style: none; margin: 20px 0 0; padding: 0; display: grid; gap: 12px; max-width: 70ch; }
+  .log__hl li { position: relative; padding-left: 26px; }
+  .log__hl li::before { content: ''; position: absolute; left: 2px; top: .55em; width: 10px; height: 10px; background: var(--on-nylon); }
+
+  /* Sobre mí */
+  .about { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 40px 72px; }
+  .about__text { display: grid; gap: 18px; font-size: 1.1875rem; line-height: 1.65; max-width: 62ch; }
+  .sub { margin: 0 0 14px; color: var(--ink-3); }
+  .sub + .certs { margin-bottom: 36px; }
+  .certs { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .certs li { display: flex; flex-direction: column; gap: 10px; padding: 16px 22px; }
+  .certs__name { font-weight: 650; }
+  .edu { margin: 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .edu li { padding-bottom: 10px; border-bottom: 1px solid var(--label-strong); }
+
+  .stack__title { font-size: clamp(2.25rem, 5vw, 3.5rem); margin-top: clamp(56px, 8vw, 96px); padding-bottom: 16px; border-bottom: 2px solid var(--ink); }
+  .stack { margin: 0; }
+  .stack__row { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 12px 32px; padding: 18px 0; border-bottom: 1px solid var(--label-strong); }
+  .stack__row dt { padding-top: 6px; }
+  .stack__row dd { margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .section--tight { padding-top: 0; }
+  #blog + .section--tight { padding-top: 0; }
+  .repos { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 32px; }
+
+  /* Contacto */
+  .contact__title { font-size: clamp(3rem, 12.5vw, 11rem); line-height: .9; overflow-wrap: anywhere; }
+  .contact__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 32px 64px; margin-top: 40px; padding-top: 32px; border-top: 2px solid var(--nylon-line); }
+  .contact__text { color: var(--on-nylon-2); font-size: 1.1875rem; max-width: 48ch; }
+  .contact__mail {
+    display: inline-block; font-family: var(--font-mono); font-size: clamp(1.125rem, 2.6vw, 1.75rem); font-weight: 600;
+    word-break: break-all; text-decoration: underline; text-decoration-color: currentColor; text-decoration-thickness: 3px; text-underline-offset: 8px;
+  }
+  .contact__mail:hover { color: var(--safety); }
+  .contact .hero__cta { margin-top: 28px; }
+
+  @media (max-width: 960px) {
+    .hero__inner { grid-template-columns: minmax(0, 1fr); }
+    .spec { max-width: 460px; margin-top: 0; margin-right: 64px; }
+    .spec :global(.spec__tag) { right: -64px; bottom: auto; top: -24px; }
+    .about, .contact__grid { grid-template-columns: minmax(0, 1fr); }
+    .repos { grid-template-columns: minmax(0, 1fr); }
+    .log__row { grid-template-columns: minmax(0, 1fr); }
+    .stack__row { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .spec { margin-right: 0; }
+    .spec :global(.spec__tag) { position: relative; right: auto; top: auto; height: 150px; margin: -28px 8px -56px auto; }
+  }
+</style>

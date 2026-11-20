@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-20T20:35:00+01:00",
+  "title": "Design System: Roberto López · Portfolio",
+  "extensions": {
+    "colorMeta": {
+      "safety": { "role": "primary", "displayName": "Naranja de seguridad", "canonical": "#ff5a00", "tonalRamp": ["#3d1400", "#6b2300", "#9e3300", "#cc4200", "#ff5a00", "#ff8a4d", "#ffb98f", "#ffe4d3"] },
+      "safety-deep": { "role": "primary", "displayName": "Naranja de seguridad profundo", "canonical": "#e24e00", "tonalRamp": ["#341100", "#5c1d00", "#8a2c00", "#b83c00", "#e24e00", "#f57a3a", "#fbab7d", "#fee0cc"] },
+      "cotton": { "role": "neutral", "displayName": "Algodón", "canonical": "#ffffff", "tonalRamp": ["#262626", "#474747", "#6b6b6b", "#919191", "#b8b8b8", "#dbdbdb", "#f2f2f2", "#ffffff"] },
+      "label": { "role": "neutral", "displayName": "Gris de etiqueta", "canonical": "#e6e6e6", "tonalRamp": ["#262626", "#474747", "#6b6b6b", "#919191", "#b8b8b8", "#cfcfcf", "#e6e6e6", "#f6f6f6"] },
+      "label-strong": { "role": "neutral", "displayName": "Gris de etiqueta fuerte", "canonical": "#cfcfcf", "tonalRamp": ["#262626", "#474747", "#6b6b6b", "#919191", "#b8b8b8", "#cfcfcf", "#e6e6e6", "#f6f6f6"] },
+      "ink": { "role": "neutral", "displayName": "Tinta", "canonical": "#0a0a0a", "tonalRamp": ["#0a0a0a", "#141414", "#222222", "#3d3d3d", "#5e5e5e", "#8c8c8c", "#cfcfcf", "#f4f4f4"] },
+      "ink-2": { "role": "neutral", "displayName": "Tinta secundaria", "canonical": "#3d3d3d", "tonalRamp": ["#0a0a0a", "#141414", "#222222", "#3d3d3d", "#5e5e5e", "#8c8c8c", "#cfcfcf", "#f4f4f4"] },
+      "ink-3": { "role": "neutral", "displayName": "Tinta de metadatos", "canonical": "#5e5e5e", "tonalRamp": ["#0a0a0a", "#141414", "#222222", "#3d3d3d", "#5e5e5e", "#8c8c8c", "#cfcfcf", "#f4f4f4"] },
+      "nylon": { "role": "neutral", "displayName": "Nylon", "canonical": "#141414", "tonalRamp": ["#0a0a0a", "#141414", "#222222", "#3a3a3a", "#5e5e5e", "#8f8f8f", "#b9b9b9", "#f4f4f4"] },
+      "nylon-2": { "role": "neutral", "displayName": "Nylon elevado", "canonical": "#222222", "tonalRamp": ["#0a0a0a", "#141414", "#222222", "#3a3a3a", "#5e5e5e", "#8f8f8f", "#b9b9b9", "#f4f4f4"] },
+      "nylon-line": { "role": "neutral", "displayName": "Línea de nylon", "canonical": "#3a3a3a", "tonalRamp": ["#0a0a0a", "#141414", "#222222", "#3a3a3a", "#5e5e5e", "#8f8f8f", "#b9b9b9", "#f4f4f4"] },
+      "on-nylon": { "role": "neutral", "displayName": "Texto sobre nylon", "canonical": "#f4f4f4", "tonalRamp": ["#141414", "#3a3a3a", "#5e5e5e", "#8f8f8f", "#b9b9b9", "#dcdcdc", "#e9e9e9", "#f4f4f4"] },
+      "on-nylon-2": { "role": "neutral", "displayName": "Secundario sobre nylon", "canonical": "#b9b9b9", "tonalRamp": ["#141414", "#3a3a3a", "#5e5e5e", "#8f8f8f", "#b9b9b9", "#dcdcdc", "#e9e9e9", "#f4f4f4"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Nombre del hero, título de caso de estudio y «¿Hablamos?». Mayúsculas condensadas (font-stretch 68 %) entre comillas tipográficas." },
+      "headline": { "displayName": "Headline", "purpose": "Títulos de sección entre comillas sobre filete de 2 px; títulos de proyecto en placa a clamp(2.5rem, 5.5vw, 4.25rem)." },
+      "title": { "displayName": "Title", "purpose": "Títulos de post y de empleo; h2 de prosa a 2.25rem con comillas y filete superior." },
+      "body": { "displayName": "Body", "purpose": "Texto general de la interfaz." },
+      "body-prose": { "displayName": "Prosa", "purpose": "Casos de estudio y posts, máximo 68ch." },
+      "label": { "displayName": "Rótulo de placa", "purpose": "dt de placas, grupos de stack; la misma voz a 0.9375-1rem para navegación, botones y enlaces con flecha." },
+      "data": { "displayName": "Datos", "purpose": "Valores de ficha técnica, etiquetas de stack, estados, fechas, repos, email." }
+    },
+    "shadows": [
+      { "name": "hanging-object", "value": "0 10px 18px -8px rgb(0 0 0 / .45), inset 0 0 0 1px rgb(0 0 0 / .12)", "purpose": "Exclusiva de la brida naranja; ninguna placa, botón o etiqueta lleva sombra." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Entrada de la franja en botones (0.35 s), avance de flechas (0.3 s) y balanceo de la brida (1.6 s)." },
+      { "name": "swing", "value": "rotate 14deg → -16deg → -4deg → -11deg → -9deg, 1.6s, delay .35s", "purpose": "Balanceo único de la brida al cargar; estática con prefers-reduced-motion." },
+      { "name": "reduced-motion", "value": "transition: none; animation: none", "purpose": "Con prefers-reduced-motion todo queda estático y el scroll deja de ser suave." }
+    ],
+    "breakpoints": [
+      { "name": "stack", "value": "960px" },
+      { "name": "nav-wrap", "value": "860px" },
+      { "name": "post-row", "value": "640px" },
+      { "name": "spec-inline", "value": "520px" },
+      { "name": "nav-tight", "value": "480px" },
+      { "name": "brand-mark-only", "value": "420px" }
+    ],
+    "patterns": [
+      { "name": "stripe", "value": "repeating-linear-gradient(-45deg, var(--ink) 0 12px, var(--cotton) 12px 24px)", "purpose": "Franja de peligro: banda del hero, estado en obras, canto de placa en desarrollo, hr y canto de citas." },
+      { "name": "stripe-nylon", "value": "repeating-linear-gradient(-45deg, var(--on-nylon) 0 12px, var(--nylon) 12px 24px)", "purpose": "Franja de peligro sobre bloques de nylon." },
+      { "name": "rivets", "value": "radial-gradient(circle, #8c8c8c 2.4px, transparent 2.9px) en las cuatro esquinas, inset 3px, 12px", "purpose": "Remaches de toda placa, por encima de las barras de título." },
+      { "name": "focus", "value": "outline: 3px solid var(--safety); outline-offset: 3px", "purpose": "Foco visible global." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Botón primario",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Acción primaria (Contactar, Enviar email): placa naranja; en hover entra la franja diagonal por la derecha.",
+      "html": "<a class=\"ds-btn ds-btn--primary\" href=\"#\">Contactar <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-btn { position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border: 2px solid var(--ink, #0a0a0a); background: var(--cotton, #fff); color: var(--ink, #0a0a0a); font-family: 'Archivo Variable', system-ui, sans-serif; font-stretch: 78%; font-weight: 750; font-size: 1rem; text-transform: uppercase; letter-spacing: .05em; text-decoration: none; overflow: hidden; isolation: isolate; transition: padding .35s cubic-bezier(0.16,1,0.3,1), background-color .2s; } .ds-btn::after { content: ''; position: absolute; inset: 0 0 0 auto; width: 36px; z-index: -1; background: repeating-linear-gradient(-45deg, currentColor 0 6px, transparent 6px 12px); opacity: .9; clip-path: inset(0 0 0 100%); transition: clip-path .35s cubic-bezier(0.16,1,0.3,1); } .ds-btn:hover { padding-right: 52px; } .ds-btn:hover::after { clip-path: inset(0 0 0 0); } .ds-btn:focus-visible { outline: 3px solid var(--safety, #ff5a00); outline-offset: 3px; } .ds-btn--primary { background: var(--safety, #ff5a00); } .ds-btn--primary:hover { background: var(--safety-deep, #e24e00); }"
+    },
+    {
+      "name": "Botón secundario",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Acciones secundarias (Ver proyectos, LinkedIn, CV): placa de algodón con el mismo hover de franja.",
+      "html": "<a class=\"ds-btn2\" href=\"#\">Ver proyectos</a>",
+      "css": ".ds-btn2 { position: relative; display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 20px; border: 2px solid var(--ink, #0a0a0a); background: var(--cotton, #fff); color: var(--ink, #0a0a0a); font-family: 'Archivo Variable', system-ui, sans-serif; font-stretch: 78%; font-weight: 750; font-size: 1rem; text-transform: uppercase; letter-spacing: .05em; text-decoration: none; overflow: hidden; isolation: isolate; transition: padding .35s cubic-bezier(0.16,1,0.3,1); } .ds-btn2::after { content: ''; position: absolute; inset: 0 0 0 auto; width: 36px; z-index: -1; background: repeating-linear-gradient(-45deg, currentColor 0 6px, transparent 6px 12px); opacity: .9; clip-path: inset(0 0 0 100%); transition: clip-path .35s cubic-bezier(0.16,1,0.3,1); } .ds-btn2:hover { padding-right: 52px; } .ds-btn2:hover::after { clip-path: inset(0 0 0 0); } .ds-btn2:focus-visible { outline: 3px solid var(--safety, #ff5a00); outline-offset: 3px; }"
+    },
+    {
+      "name": "Etiqueta de inventario",
+      "kind": "chip",
+      "refersTo": "tag",
+      "description": "Tecnología del stack en mono sobre gris de etiqueta; no interactiva.",
+      "html": "<span class=\"ds-tag\">.NET 10</span> <span class=\"ds-tag\">SQL Server</span> <span class=\"ds-tag\">Bicep</span>",
+      "css": ".ds-tag { display: inline-flex; align-items: center; font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-size: .8125rem; line-height: 1.2; padding: 5px 9px; background: var(--label, #e6e6e6); color: var(--ink, #0a0a0a); white-space: nowrap; }"
+    },
+    {
+      "name": "Estado",
+      "kind": "custom",
+      "description": "Estado de proyecto o certificación: rectángulo macizo si está terminado, franja de peligro si está en obras.",
+      "html": "<span class=\"ds-status\">Desplegado en Azure</span><br><span class=\"ds-status ds-status--wip\">En desarrollo</span>",
+      "css": ".ds-status { display: inline-flex; align-items: center; gap: 10px; margin: 6px 0; font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-size: .8125rem; font-weight: 600; text-transform: uppercase; letter-spacing: .02em; color: var(--ink, #0a0a0a); } .ds-status::before { content: ''; width: 22px; height: 12px; background: var(--ink, #0a0a0a); flex: none; } .ds-status--wip::before { background: repeating-linear-gradient(-45deg, #0a0a0a 0 12px, #fff 12px 24px); box-shadow: inset 0 0 0 1.5px #0a0a0a; }"
+    },
+    {
+      "name": "Placa de especificación",
+      "kind": "card",
+      "refersTo": "plate",
+      "description": "Contenedor base: borde de 2 px, esquina viva, remaches en las esquinas y barra de título en tinta.",
+      "html": "<div class=\"ds-plate\"><p class=\"ds-plate__title\">“Ficha técnica”</p><dl><div><dt>Stack</dt><dd>.NET 10 · Angular</dd></div><div><dt>Cloud</dt><dd>Azure</dd></div><div><dt>Desde</dt><dd>2024</dd></div></dl></div>",
+      "css": ".ds-plate { position: relative; max-width: 380px; border: 2px solid var(--ink, #0a0a0a); background: var(--cotton, #fff); color: var(--ink, #0a0a0a); padding-bottom: 8px; font-family: 'Archivo Variable', system-ui, sans-serif; } .ds-plate::after { content: ''; position: absolute; inset: 3px; pointer-events: none; z-index: 1; background: radial-gradient(circle, #8c8c8c 2.4px, transparent 2.9px) 0 0 / 12px 12px no-repeat, radial-gradient(circle, #8c8c8c 2.4px, transparent 2.9px) 100% 0 / 12px 12px no-repeat, radial-gradient(circle, #8c8c8c 2.4px, transparent 2.9px) 0 100% / 12px 12px no-repeat, radial-gradient(circle, #8c8c8c 2.4px, transparent 2.9px) 100% 100% / 12px 12px no-repeat; } .ds-plate__title { margin: 0; padding: 14px 24px; background: var(--ink, #0a0a0a); color: var(--cotton, #fff); font-stretch: 75%; font-weight: 800; text-transform: uppercase; letter-spacing: .05em; } .ds-plate dl { margin: 0; padding: 8px 24px 14px; } .ds-plate dl > div { display: grid; grid-template-columns: 76px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--label-strong, #cfcfcf); } .ds-plate dl > div:last-child { border-bottom: 0; } .ds-plate dt { color: var(--ink-3, #5e5e5e); font-stretch: 80%; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; font-size: .8125rem; padding-top: 2px; } .ds-plate dd { margin: 0; font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-size: .9375rem; font-weight: 500; }"
+    },
+    {
+      "name": "Navegación",
+      "kind": "nav",
+      "description": "Monograma RL y enlaces entre comillas en mayúsculas condensadas; filete inferior de 3 px en hover y página actual.",
+      "html": "<header class=\"ds-nav\"><a class=\"ds-nav__brand\" href=\"#\"><span>RL</span>Roberto López</a><ul><li><a href=\"#\" aria-current=\"page\">“Proyectos”</a></li><li><a href=\"#\">“Experiencia”</a></li><li><a href=\"#\">“Blog”</a></li></ul></header>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 28px; min-height: 68px; padding: 0 20px; background: var(--cotton, #fff); border-bottom: 2px solid var(--ink, #0a0a0a); font-family: 'Archivo Variable', system-ui, sans-serif; color: var(--ink, #0a0a0a); } .ds-nav a { color: inherit; text-decoration: none; } .ds-nav__brand { display: flex; align-items: center; gap: 12px; margin-right: auto; font-stretch: 75%; font-weight: 800; font-size: 1.25rem; text-transform: uppercase; } .ds-nav__brand span { display: grid; place-items: center; width: 40px; height: 40px; background: var(--ink, #0a0a0a); color: var(--cotton, #fff); font-stretch: 70%; font-weight: 850; font-size: 1.125rem; } .ds-nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; } .ds-nav ul a { display: block; padding: 8px 0; font-stretch: 78%; font-weight: 700; font-size: .9375rem; text-transform: uppercase; letter-spacing: .05em; border-bottom: 3px solid transparent; transition: border-color .2s; } .ds-nav ul a:hover, .ds-nav ul a[aria-current='page'] { border-bottom-color: var(--ink, #0a0a0a); } .ds-nav a:focus-visible { outline: 3px solid var(--safety, #ff5a00); outline-offset: 3px; }"
+    },
+    {
+      "name": "Enlace con flecha",
+      "kind": "custom",
+      "description": "Acción secundaria de cabecera de sección y placa: subrayado de 2 px que pasa a naranja en hover, flecha que avanza.",
+      "html": "<a class=\"ds-arrow\" href=\"#\">Todos los proyectos <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></a>",
+      "css": ".ds-arrow { display: inline-flex; gap: 8px; align-items: center; color: var(--ink, #0a0a0a); font-family: 'Archivo Variable', system-ui, sans-serif; font-stretch: 80%; font-weight: 750; text-transform: uppercase; letter-spacing: .05em; font-size: .9375rem; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 6px; text-decoration-color: currentColor; transition: text-decoration-color .2s; } .ds-arrow:hover { text-decoration-color: var(--safety, #ff5a00); } .ds-arrow svg { transition: transform .3s cubic-bezier(0.16,1,0.3,1); } .ds-arrow:hover svg { transform: translateX(4px); } .ds-arrow:focus-visible { outline: 3px solid var(--safety, #ff5a00); outline-offset: 3px; }"
+    },
+    {
+      "name": "Brida",
+      "kind": "custom",
+      "refersTo": "ziptag",
+      "description": "Signature: etiqueta naranja colgante que marca disponibilidad; una por página, se balancea una vez al cargar.",
+      "html": "<div class=\"ds-zip\"><svg viewBox=\"0 0 60 90\" width=\"60\" height=\"90\" aria-hidden=\"true\"><path d=\"M8 4 C 2 34, 22 62, 40 80\" fill=\"none\" stroke=\"#ff5a00\" stroke-width=\"5\" stroke-linecap=\"round\"/></svg><div class=\"ds-zip__body\"><span class=\"ds-zip__hole\"></span><strong>Abierto a nuevas oportunidades</strong><span class=\"ds-zip__meta\">Backend · Azure · DevOps</span></div></div>",
+      "css": ".ds-zip { position: relative; width: 178px; height: 250px; font-family: 'Archivo Variable', system-ui, sans-serif; } .ds-zip svg { position: absolute; left: 0; top: 0; overflow: visible; } .ds-zip__body { position: absolute; left: 24px; top: 70px; width: 150px; padding: 30px 16px 16px; background: var(--safety, #ff5a00); color: var(--ink, #0a0a0a); border-radius: 6px 6px 3px 3px; box-shadow: 0 10px 18px -8px rgb(0 0 0 / .45), inset 0 0 0 1px rgb(0 0 0 / .12); transform-origin: 50% 14px; transform: rotate(-9deg); animation: ds-swing 1.6s cubic-bezier(0.16,1,0.3,1) .35s both; } .ds-zip__hole { position: absolute; left: 50%; top: 9px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%; background: #fff; box-shadow: inset 0 0 0 2px rgb(0 0 0 / .25); } .ds-zip strong { display: block; font-stretch: 66%; font-weight: 850; font-size: 1rem; line-height: 1.04; text-transform: uppercase; } .ds-zip__meta { display: block; margin-top: 10px; padding-top: 8px; border-top: 1.5px solid rgb(0 0 0 / .55); font-family: 'JetBrains Mono Variable', ui-monospace, monospace; font-size: .6875rem; font-weight: 600; text-transform: uppercase; } @keyframes ds-swing { 0% { transform: rotate(14deg); } 35% { transform: rotate(-16deg); } 60% { transform: rotate(-4deg); } 80% { transform: rotate(-11deg); } 100% { transform: rotate(-9deg); } } @media (prefers-reduced-motion: reduce) { .ds-zip__body { animation: none; } }"
+    },
+    {
+      "name": "Banda de peligro",
+      "kind": "custom",
+      "description": "Franja a -45° entre filetes de tinta que cierra el hero y marca lo que está en obras.",
+      "html": "<div class=\"ds-hazard\" aria-hidden=\"true\"></div>",
+      "css": ".ds-hazard { height: 28px; background: repeating-linear-gradient(-45deg, #0a0a0a 0 12px, #fff 12px 24px); border-block: 2px solid #0a0a0a; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "El inventario etiquetado",
+    "overview": "El perfil se presenta como un almacén industrial bien rotulado: cada zona se llama por su nombre literal entre comillas («Proyectos», «Experiencia», «Ficha técnica») y cada pieza lleva su placa de especificación con remaches, borde de 2 px y datos en monoespaciada. La página no tiene modo oscuro; en su lugar, bloques enteros de algodón blanco y nylon negro se alternan como suelos distintos del mismo almacén, y el contraste entre ambos hace el trabajo que antes hacía el tema.\n\nLa densidad es de ficha técnica: mucha información escaneable (estado, año, piezas, stack) ordenada en filas con etiquetas en versalitas condensadas, y una voz display enorme, condensada y pesada que nombra cada sección. El único color es el naranja de seguridad, y aparece solo donde algo exige actuar o está «activo»: la acción primaria, la brida colgante, el foco, la selección y la señal de hover en enlaces. Lo que está en obras (En desarrollo, En preparación) lleva franjas de peligro a 45°, nunca un color nuevo.\n\nRechazos confirmados: el hero oscuro de desarrollador con nombre en degradado, la fila de tarjetas iguales y cualquier radio o sombra difusa en las placas.",
+    "keyCharacteristics": [
+      "Bloques blancos y negros a ancho completo, sin modo oscuro (solo claro, `color-scheme: light`).",
+      "Placas rectangulares con remaches en las cuatro esquinas, borde de 2 px en tinta y radio cero.",
+      "Títulos de sección en mayúsculas condensadas y entre comillas tipográficas.",
+      "Datos en JetBrains Mono; rótulos en Archivo condensado en mayúsculas.",
+      "Franjas de peligro a 45° para separar el hero y marcar lo que está en obras.",
+      "Naranja de seguridad reservado a acción, estado activo, foco, selección y hover de enlaces."
+    ],
+    "rules": [
+      { "name": "The Señal Única Rule", "body": "El naranja de seguridad marca solo acción primaria, brida, foco, selección y hover de enlaces. Ni fondos de sección, ni iconos, ni títulos, ni gráficos. Si algo naranja no se puede pulsar ni está «activo», sobra.", "section": "colors" },
+      { "name": "The Suelos Enteros Rule", "body": "El algodón y el nylon se alternan en bloques de ancho completo; no hay tarjetas oscuras flotando sobre blanco ni tarjetas blancas sobre nylon. Dentro de un bloque de nylon, los componentes cambian a su variante `on-nylon`.", "section": "colors" },
+      { "name": "The Obras con Franja Rule", "body": "Lo inacabado (En desarrollo, En preparación) se marca con la franja de peligro a 45° (12 px tinta / 12 px algodón), nunca con un color de estado.", "section": "colors" },
+      { "name": "The Nombre Literal Rule", "body": "Toda zona se llama por su nombre literal, en display condensado y entre comillas tipográficas (“ ”). Nada de titulares metafóricos ni rótulos pequeños encima del título.", "section": "typography" },
+      { "name": "The Datos en Mono Rule", "body": "Un valor medible o técnico (año, estado, stack, periodo, email) va en JetBrains Mono; la prosa nunca.", "section": "typography" },
+      { "name": "The Placa Plana Rule", "body": "Placas, botones, etiquetas y bloques de código no proyectan sombra. La única sombra del sistema es la de la brida, porque es el único objeto que no está atornillado.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** nombrar cada sección por su nombre literal en display condensado y entre comillas tipográficas.",
+      "**Do** construir todo contenedor como placa: borde de 2 px en tinta, esquina viva, remaches y, si lleva título, barra de tinta.",
+      "**Do** alternar bloques enteros de algodón y nylon, y pasar los componentes a su variante `on-nylon` dentro de los oscuros.",
+      "**Do** marcar lo que está en obras con la franja de peligro a 45° y lo terminado con el rectángulo macizo.",
+      "**Do** poner los datos medibles en JetBrains Mono y los rótulos en Archivo condensado en mayúsculas.",
+      "**Do** usar texto en tinta sobre el naranja de seguridad.",
+      "**Do** dejar que el hover de un botón haga entrar la franja por el borde derecho; con movimiento reducido, sin transición."
+    ],
+    "donts": [
+      "**Don't** usar el naranja de seguridad fuera de acción primaria, brida, foco, selección y hover de enlaces.",
+      "**Don't** añadir modo oscuro ni un segundo color de acento: el contraste entre bloques ya hace ese papel.",
+      "**Don't** redondear esquinas ni añadir sombras difusas a placas, botones o etiquetas; la brida es la única excepción.",
+      "**Don't** volver al hero oscuro con nombre en degradado ni a la fila de tarjetas iguales.",
+      "**Don't** poner rótulos pequeños en mayúsculas encima de los títulos de sección; el título entre comillas ya nombra la zona.",
+      "**Don't** colgar más de una brida por página."
+    ]
+  }
+}

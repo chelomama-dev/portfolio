@@ -1,0 +1,31 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PostItem from '../../components/PostItem.astro';
+import Icon from '../../components/Icon.astro';
+
+const posts = (await getCollection('blog', (p) => import.meta.env.DEV || !p.data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+<Base title="Blog" description="Artículos sobre .NET, Angular, Azure, DevOps e IA aplicada al desarrollo.">
+  <section class="section">
+    <div class="container">
+      <div class="section__head">
+        <div>
+          <h1 class="display q">Blog</h1>
+          <p class="section__lead">.NET, Angular, Azure, CI/CD, infraestructura como código e IA aplicada al desarrollo. Escribo lo que aprendo.</p>
+        </div>
+        <a href="/rss.xml" class="link-arrow"><Icon name="rss" size={18} /> RSS</a>
+      </div>
+      <div>
+        {posts.length ? posts.map((p) => <PostItem post={p} />) : <p class="empty">Aún no hay posts. El primero está en camino; si quieres enterarte, suscríbete por <a href="/rss.xml">RSS</a>.</p>}
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  h1 { font-size: clamp(3.5rem, 10vw, 8rem); }
+  .empty { color: var(--ink-2); }
+</style>

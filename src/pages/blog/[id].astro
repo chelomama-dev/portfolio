@@ -1,0 +1,49 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { formatDate, readingTime } from '../../lib/format';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', (p) => import.meta.env.DEV || !p.data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, date, updated, tags, draft } = post.data;
+---
+<Base title={title} description={description} type="article">
+  <article class="section">
+    <div class="container narrow">
+      <a href="/blog" class="link-arrow back"><Icon name="arrow" size={18} class="back__icon" /> Blog</a>
+      <header class="head">
+        {draft && <span class="status status--wip">Borrador</span>}
+        <h1 class="display">{title}</h1>
+        <p class="lead">{description}</p>
+        <p class="meta">
+          <time datetime={date.toISOString()}>{formatDate(date)}</time>
+          <span aria-hidden="true">/</span>
+          <span>{readingTime(post.body ?? '')}</span>
+          {updated && <><span aria-hidden="true">/</span><span>Actualizado el {formatDate(updated)}</span></>}
+        </p>
+        {tags.length > 0 && <div class="tags">{tags.map((t) => <span class="tag">{t}</span>)}</div>}
+      </header>
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .narrow { max-width: 800px; }
+  .back { margin-bottom: 32px; }
+  .back :global(.back__icon) { transform: scaleX(-1); }
+  .back:hover :global(svg) { transform: scaleX(-1) translateX(4px); }
+  .head { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; padding-bottom: 36px; margin-bottom: 44px; border-bottom: 2px solid var(--ink); }
+  h1 { font-size: clamp(2.75rem, 7vw, 4.75rem); }
+  .lead { font-size: 1.25rem; line-height: 1.5; color: var(--ink-2); }
+  .meta { display: flex; gap: 10px; flex-wrap: wrap; font-family: var(--font-mono); font-size: .8125rem; text-transform: uppercase; color: var(--ink-3); }
+  .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+</style>
