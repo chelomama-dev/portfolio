@@ -19,12 +19,12 @@ Web personal estática hecha con [Astro](https://astro.build): proyectos, blog, 
 - **Repos de GitHub** → se leen de la API en tiempo de build (`src/lib/github.ts`). Con `GITHUB_TOKEN` en el entorno se evita el rate limit.
 - **Estilos y colores** → `src/styles/global.css` (tokens de tema claro/oscuro)
 - **CV en PDF** → se edita en `cv/cv-es.html` y `cv/cv-en.html`; `./cv/build.sh` regenera `public/cv/*.pdf` (una A4, sin teléfono: es público)
-- **Dominio** → variable `SITE_URL` (en CI, variable del repo); sin ella el build usa `https://example.com`
+- **Dominio** → `rlopezbarbarin.dev`: `site` en `astro.config.mjs` (sobrescribible con `SITE_URL`) y `routes` en `wrangler.jsonc`
 
 ## Despliegue
 
-`.github/workflows/deploy.yml`: en cada push/PR hace `astro check` + build. El deploy a Cloudflare Workers
-solo corre en `main` cuando el repo tiene la variable `SITE_URL` y los secrets `CLOUDFLARE_API_TOKEN` y
-`CLOUDFLARE_ACCOUNT_ID`. También se reconstruye cada lunes para refrescar los repos de GitHub.
+`.github/workflows/deploy.yml`: en cada push/PR hace `astro check` + build. Cada push a `main` despliega
+en Cloudflare Workers (https://rlopezbarbarin.dev) con la variable `SITE_URL` y los secrets `CLOUDFLARE_API_TOKEN` y
+`CLOUDFLARE_ACCOUNT_ID` del repo. También se reconstruye cada lunes para refrescar los repos de GitHub.
 
 El esquema de proyectos y posts está en `src/content.config.ts`: si falta un campo obligatorio, el build falla.

@@ -5,8 +5,8 @@ import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
-  // Dominio final: en CI llega por la variable SITE_URL del repo (lo usan el sitemap, el RSS y las URLs canónicas)
-  site: process.env.SITE_URL || 'https://example.com',
+  // Dominio final (se puede sobrescribir con la variable SITE_URL) (lo usan el sitemap, el RSS y las URLs canónicas)
+  site: process.env.SITE_URL || 'https://rlopezbarbarin.dev',
   integrations: [mdx(), sitemap()],
   markdown: {
     shikiConfig: {

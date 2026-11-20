@@ -41,8 +41,6 @@ Un desarrollador con ~2 años de experiencia que en su trabajo actúa como senio
 - **Estados de proyecto honestos:** `Desplegado en Azure`, `En desarrollo`, `Terminado`. Plumy es "Desplegado en Azure", nunca "En producción", mientras no tenga clientes.
 - **Idioma:** solo español. Los ADRs y el código de los repos están en inglés.
 - **Pendiente / sin decidir:**
-  - Dominio final: falta definir la variable `SITE_URL` del repo (y los secrets de Cloudflare) para activar el deploy.
-  - PDF del CV (`cvUrl` es `null`, así que el botón de descarga está oculto, aunque descargar el CV es una de las dos acciones de éxito).
   - Cómo atender a la audiencia internacional con una web solo en español (decisión abierta).
 
 ## Brand Commitments

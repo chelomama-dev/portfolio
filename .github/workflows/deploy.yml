@@ -1,8 +1,8 @@
 # CI + despliegue del portfolio a Cloudflare Workers (static assets).
 #
 # - Cada push y PR: astro check + build (si algo se rompe, lo ves aquí antes de publicar).
-# - Push a main / ejecución manual / cada lunes: build y deploy, pero SOLO si el repo
-#   tiene la variable SITE_URL. Hasta que compres el dominio, el deploy se salta solo.
+# - Push a main / ejecución manual / cada lunes: build y deploy a https://rlopezbarbarin.dev, SOLO si el repo
+#   tiene la variable SITE_URL (si la borras, el deploy se pausa).
 #   El cron semanal sirve para refrescar la sección de repos de GitHub (se lee en build).
 #
 # Para activarlo (Settings → Secrets and variables → Actions):
